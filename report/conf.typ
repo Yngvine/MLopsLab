@@ -11,6 +11,10 @@
   spacing: 0.65em,
   justify: true,
 )
+#show par: it => [
+  #it
+  #v(0.5em)
+]
 #set list(
   indent: 1.25em,
   spacing: 0.65em,
