@@ -44,10 +44,14 @@ def clean(data):
 
 @cleaning.command()
 @click.argument("data", nargs=-1)
-@click.option("--fill_value", default=0, help="Value to fill missing entries with.")
+@click.option("--fill_value", default=0, type=click.UNPROCESSED, help="Value to fill missing entries with.")
 def fill(data, fill_value):
     """Fills missing values in the input data with a specified fill value."""
     data_list = list(data)
+    if type(fill_value) == str:
+        fill_value = int(fill_value) if fill_value.lstrip('-').isdigit() else fill_value
+    if type(fill_value) == str:
+        fill_value = float(fill_value) if fill_value.replace('.', '', 1).lstrip('-').isdigit() else fill_value
     filled_data = fill_values(data_list, fill_value)
     click.echo(f"Filled Data: {filled_data}")
 
@@ -58,7 +62,7 @@ def numeric():
 
 
 @numeric.command()
-@click.argument("data", nargs=-1)
+@click.argument("data", nargs=-1, type=float)
 @click.option("--min_value", default=0, help="Minimum value for normalization.")
 @click.option("--max_value", default=1, help="Maximum value for normalization.")
 def normalize(data, min_value, max_value):
@@ -69,7 +73,7 @@ def normalize(data, min_value, max_value):
 
 
 @numeric.command()
-@click.argument("data", nargs=-1)
+@click.argument("data", nargs=-1, type=float)
 def standardize(data):
     """Standardizes the input data to have a mean of 0 and standard deviation of 1."""
     data_list = list(data)
@@ -78,7 +82,7 @@ def standardize(data):
 
 
 @numeric.command()
-@click.argument("data", nargs=-1)
+@click.argument("data", nargs=-1, type=float)
 @click.option("--min_threshold", default=0, help="Lower threshold for clipping.")
 @click.option("--max_threshold", default=1, help="Upper threshold for clipping.")
 def clip(data, min_threshold, max_threshold):
@@ -98,7 +102,7 @@ def to_int(data):
 
 
 @numeric.command()
-@click.argument("data", nargs=-1)
+@click.argument("data", nargs=-1, type=float)
 def log_scale(data):
     """Applies logarithmic scaling to the input data."""
     data_list = list(data)
@@ -112,7 +116,7 @@ def text():
 
 
 @text.command()
-@click.argument("data", nargs=-1)
+@click.argument("data")
 def tokenize(data):
     """Tokenizes the input text data."""
     tokenized_data = special_tokenization(data)
@@ -120,7 +124,7 @@ def tokenize(data):
 
 
 @text.command()
-@click.argument("data", nargs=-1)
+@click.argument("data")
 def clean_punctuation(data):
     """Cleans punctuation from the input text data."""
     cleaned_data = clean_text(data)
@@ -128,7 +132,7 @@ def clean_punctuation(data):
 
 
 @text.command()
-@click.argument("data", nargs=-1)
+@click.argument("data")
 @click.option(
     "--stopwords", default="", help="Comma-separated list of stopwords to remove."
 )

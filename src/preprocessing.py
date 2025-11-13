@@ -26,11 +26,14 @@ def clean_values(data: list) -> list:
     >>> clean_values([1, 2, None, '', 3, float('nan')])
     [1, 2, 3]
     """
-    cleaned_data = [
-        item
-        for item in data
-        if item is not None and item != "" and not math.isnan(item)
-    ]
+    cleaned_data = []
+    for item in data:
+        if item is None or item == "":
+            continue
+        if (isinstance(item, float) or isinstance(item, int)) and math.isnan(item):
+            continue
+        cleaned_data.append(item)
+
     return cleaned_data
 
 
@@ -55,10 +58,15 @@ def fill_values(data: list, fill_value: Any = 0) -> list:
     >>> fill_values([1, 2, None, '', 3, float('nan')], fill_value=-1)
     [1, 2, -1, -1, 3, -1]
     """
-    filled_data = [
-        item if item is not None and item != "" and not math.isnan(item) else fill_value
-        for item in data
-    ]
+    filled_data = []
+    for item in data:
+        if item is None or item == "":
+            filled_data.append(fill_value)
+        elif (isinstance(item, float) or isinstance(item, int)) and math.isnan(item):
+            filled_data.append(fill_value)
+        else:
+            filled_data.append(item)
+        
     return filled_data
 
 
