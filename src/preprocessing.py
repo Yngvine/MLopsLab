@@ -1,6 +1,7 @@
 """
 Data preprocessing functions for cleaning and transforming datasets.
 """
+
 import math
 import re
 from typing import Any
@@ -186,7 +187,7 @@ def clip_values(data: list, min_threshold: float, max_threshold: float) -> list:
 
 def lst_to_ints(data: list[str]) -> list[int]:
     """
-    Converts all elements in the input list to integers if possible. 
+    Converts all elements in the input list to integers if possible.
     Non-convertible elements are excluded.
 
     Parameters
@@ -232,7 +233,7 @@ def log_transform(data: list) -> list:
 
 def special_tokenization(text: str) -> list:
     """
-    Tokenizes the input text into words, selecting only alphanumeric 
+    Tokenizes the input text into words, selecting only alphanumeric
     characters and lowercasing words.
 
     Parameters

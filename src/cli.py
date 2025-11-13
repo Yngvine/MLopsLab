@@ -2,6 +2,7 @@
 CLI application for data preprocessing tasks.
 Wraps functions from preprocessing.py using Click.
 """
+
 import ast
 import click
 
@@ -20,7 +21,6 @@ from .preprocessing import (
     lst_flatten,
     remove_duplicates,
 )
-
 
 
 @click.group()
@@ -45,17 +45,22 @@ def clean(data):
 @cleaning.command()
 @click.argument("data", nargs=-1)
 @click.option(
-    "--fill_value", default=0, type=click.UNPROCESSED, 
-    help="Value to fill missing entries with."
-    )
+    "--fill_value",
+    default=0,
+    type=click.UNPROCESSED,
+    help="Value to fill missing entries with.",
+)
 def fill(data, fill_value):
     """Fills missing values in the input data with a specified fill value."""
     data_list = list(data)
     if isinstance(fill_value, str):
-        fill_value = int(fill_value) if fill_value.lstrip('-').isdigit() else fill_value
+        fill_value = int(fill_value) if fill_value.lstrip("-").isdigit() else fill_value
     if isinstance(fill_value, str):
-        fill_value = float(fill_value) \
-            if fill_value.replace('.', '', 1).lstrip('-').isdigit() else fill_value
+        fill_value = (
+            float(fill_value)
+            if fill_value.replace(".", "", 1).lstrip("-").isdigit()
+            else fill_value
+        )
     filled_data = fill_values(data_list, fill_value)
     click.echo(f"Filled Data: {filled_data}")
 
