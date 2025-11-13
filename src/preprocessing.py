@@ -30,7 +30,7 @@ def clean_values(data: list) -> list:
     for item in data:
         if item is None or item == "":
             continue
-        if (isinstance(item, float) or isinstance(item, int)) and math.isnan(item):
+        if isinstance(item, (float, int)) and math.isnan(item):
             continue
         cleaned_data.append(item)
 
@@ -62,11 +62,10 @@ def fill_values(data: list, fill_value: Any = 0) -> list:
     for item in data:
         if item is None or item == "":
             filled_data.append(fill_value)
-        elif (isinstance(item, float) or isinstance(item, int)) and math.isnan(item):
+        elif isinstance(item, (float, int)) and math.isnan(item):
             filled_data.append(fill_value)
         else:
             filled_data.append(item)
-        
     return filled_data
 
 

@@ -44,14 +44,18 @@ def clean(data):
 
 @cleaning.command()
 @click.argument("data", nargs=-1)
-@click.option("--fill_value", default=0, type=click.UNPROCESSED, help="Value to fill missing entries with.")
+@click.option(
+    "--fill_value", default=0, type=click.UNPROCESSED, 
+    help="Value to fill missing entries with."
+    )
 def fill(data, fill_value):
     """Fills missing values in the input data with a specified fill value."""
     data_list = list(data)
-    if type(fill_value) == str:
+    if isinstance(fill_value, str):
         fill_value = int(fill_value) if fill_value.lstrip('-').isdigit() else fill_value
-    if type(fill_value) == str:
-        fill_value = float(fill_value) if fill_value.replace('.', '', 1).lstrip('-').isdigit() else fill_value
+    if isinstance(fill_value, str):
+        fill_value = float(fill_value) \
+            if fill_value.replace('.', '', 1).lstrip('-').isdigit() else fill_value
     filled_data = fill_values(data_list, fill_value)
     click.echo(f"Filled Data: {filled_data}")
 
